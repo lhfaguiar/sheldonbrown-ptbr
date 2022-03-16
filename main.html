@@ -1,53 +1,6 @@
 
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/>
-<script data-ezscrex='false' data-cfasync='false' data-pagespeed-no-defer>var __ez=__ez||{};__ez.stms=Date.now();__ez.evt={};__ez.script={};__ez.ck=__ez.ck||{};__ez.template={};__ez.template.isOrig=false;__ez.queue=(function(){var count=0,incr=0,items=[],timeDelayFired=false,hpItems=[],lpItems=[],allowLoad=true;var obj={func:function(name,funcName,parameters,isBlock,blockedBy,deleteWhenComplete,proceedIfError){var self=this;this.name=name;this.funcName=funcName;this.parameters=parameters===null?null:(parameters instanceof Array)?parameters:[parameters];this.isBlock=isBlock;this.blockedBy=blockedBy;this.deleteWhenComplete=deleteWhenComplete;this.isError=false;this.isComplete=false;this.isInitialized=false;this.proceedIfError=proceedIfError;this.isTimeDelay=false;this.process=function(){log("... func = "+name);self.isInitialized=true;self.isComplete=true;log("... func.apply: "+name);var funcs=self.funcName.split('.');var func=null;if(funcs.length>3){}else if(funcs.length===3){func=window[funcs[0]][funcs[1]][funcs[2]];}else if(funcs.length===2){func=window[funcs[0]][funcs[1]];}else{func=window[self.funcName];}
-if(typeof func!=='undefined'&&func!==null){func.apply(null,this.parameters);}
-if(self.deleteWhenComplete===true)delete items[name];if(self.isBlock===true){log("----- F'D: "+self.name);processAll();}}},file:function(name,path,isBlock,blockedBy,async,defer,proceedIfError){var self=this;this.name=name;this.path=path;this.async=async;this.defer=defer;this.isBlock=isBlock;this.blockedBy=blockedBy;this.isInitialized=false;this.isError=false;this.isComplete=false;this.proceedIfError=proceedIfError;this.isTimeDelay=false;this.process=function(){self.isInitialized=true;log("... file = "+name);var scr=document.createElement('script');scr.src=path;if(async===true)scr.async=true;else if(defer===true)scr.defer=true;scr.onerror=function(){log("----- ERR'D: "+self.name);self.isError=true;if(self.isBlock===true){processAll();}};scr.onreadystatechange=scr.onload=function(){var state=scr.readyState;log("----- F'D: "+self.name);if((!state||/loaded|complete/.test(state))){self.isComplete=true;if(self.isBlock===true){processAll();}}};document.getElementsByTagName('head')[0].appendChild(scr);}},fileLoaded:function(name,isComplete){this.name=name;this.path="";this.async=false;this.defer=false;this.isBlock=false;this.blockedBy=[];this.isInitialized=true;this.isError=false;this.isComplete=isComplete;this.proceedIfError=false;this.isTimeDelay=false;this.process=function(){};}};function init(){window.addEventListener("load",function(){setTimeout(function(){timeDelayFired=true;log('TDELAY -----');processAll();},5000);},false);}
-function addFile(name,path,isBlock,blockedBy,async,defer,proceedIfError,priority){var item=new obj.file(name,path,isBlock,blockedBy,async,defer,proceedIfError);if(priority===true){hpItems[name]=item}else{lpItems[name]=item}
-items[name]=item;checkIfBlocked(item);}
-function setallowLoad(settobool){allowLoad=settobool}
-function addFunc(name,func,parameters,isBlock,blockedBy,autoInc,deleteWhenComplete,proceedIfError,priority){if(autoInc===true)name=name+"_"+incr++;var item=new obj.func(name,func,parameters,isBlock,blockedBy,deleteWhenComplete,proceedIfError);if(priority===true){hpItems[name]=item}else{lpItems[name]=item}
-items[name]=item;checkIfBlocked(item);}
-function addTimeDelayFile(name,path){var item=new obj.file(name,path,false,[],false,false,true);item.isTimeDelay=true;log(name+' ... '+' FILE! TDELAY');lpItems[name]=item;items[name]=item;checkIfBlocked(item);}
-function addTimeDelayFunc(name,func,parameters){var item=new obj.func(name,func,parameters,false,[],true,true);item.isTimeDelay=true;log(name+' ... '+' FUNCTION! TDELAY');lpItems[name]=item;items[name]=item;checkIfBlocked(item);}
-function checkIfBlocked(item){if(isBlocked(item)===true||allowLoad==false)return;item.process();}
-function isBlocked(item){if(item.isTimeDelay===true&&timeDelayFired===false){log(item.name+" blocked = TIME DELAY!");return true;}
-if(item.blockedBy instanceof Array){for(var i=0;i<item.blockedBy.length;i++){var block=item.blockedBy[i];if(items.hasOwnProperty(block)===false){log(item.name+" blocked = "+block);return true;}else if(item.proceedIfError===true&&items[block].isError===true){return false;}else if(items[block].isComplete===false){log(item.name+" blocked = "+block);return true;}}}
-return false;}
-function markLoaded(filename){if(!filename||0===filename.length){return;}
-if(filename in items){var item=items[filename];if(item.isComplete===true){log(item.name+' '+filename+': error loaded duplicate')}else{item.isComplete=true;item.isInitialized=true;}}else{items[filename]=new obj.fileLoaded(filename,true);}
-log("markLoaded dummyfile: "+items[filename].name);}
-function logWhatsBlocked(){for(var i in items){if(items.hasOwnProperty(i)===false)continue;var item=items[i];isBlocked(item)}}
-function log(msg){var href=window.location.href;var reg=new RegExp('[?&]ezq=([^&#]*)','i');var string=reg.exec(href);var res=string?string[1]:null;if(res==="1")console.debug(msg);}
-function processAll(){count++;if(count>200)return;log("let's go");processItems(hpItems);processItems(lpItems);}
-function processItems(list){for(var i in list){if(list.hasOwnProperty(i)===false)continue;var item=list[i];if(item.isComplete===true||isBlocked(item)||item.isInitialized===true||item.isError===true){if(item.isError===true){log(item.name+': error')}else if(item.isComplete===true){log(item.name+': complete already')}else if(item.isInitialized===true){log(item.name+': initialized already')}}else{item.process();}}}
-init();return{addFile:addFile,addDelayFile:addTimeDelayFile,addFunc:addFunc,addDelayFunc:addTimeDelayFunc,items:items,processAll:processAll,setallowLoad:setallowLoad,markLoaded:markLoaded,logWhatsBlocked:logWhatsBlocked,};})();__ez.evt.add=function(e,t,n){e.addEventListener?e.addEventListener(t,n,!1):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n()},__ez.evt.remove=function(e,t,n){e.removeEventListener?e.removeEventListener(t,n,!1):e.detachEvent?e.detachEvent("on"+t,n):delete e["on"+t]};__ez.script.add=function(e){var t=document.createElement("script");t.src=e,t.async=!0,t.type="text/javascript",document.getElementsByTagName("head")[0].appendChild(t)};__ez.dot={};</script>
-<script>window.ezslots_raw=[];var __sellerid='331e761ab9cb353d175bf4323e4b409d';var __ez_nid ='1254144';__advertiserRule=['bicyclepost.com','www.equinox.com/','chegg.com','chegg.com/','www.chegg.com','www.chegg.com/','chineseladydate.com','www.chineseladydate.com','uglyhedgehog.com','www.uglyhedgehog.com','tvguide.com','www.tvguide.com','groovyhistory.com'];var ezasVars = {'cid':'2598107211','pid':'pub-1229949690989515','ssid':44};window.google_reactive_ads_global_state = {
-                adCount: {},
-                floatingAdsStacking: { maxZIndexListeners: [], maxZIndexRestrictions: {}, nextRestrictionId: 0 },
-                messageValidationEnabled: false,
-                reactiveTypeDisabledByPublisher: {},
-                reactiveTypeEnabledInAsfe: {},
-                sideRailAvailableSpace: [],
-                sideRailOverlappableElements: [],
-                stateForType: {},
-                tagSpecificState: {},
-                wasPlaTagProcessed: true,
-                wasReactiveAdConfigReceived: { 1: true, 2: true, 8: true },
-                wasReactiveAdVisible: {},
-                wasReactiveTagRequestSent: true,
-                description: "Can't disable auto ads programmatically on the page, so here we are!"
-            };window.ezasvEvent=function(e,o){if(e[0].isIntersecting===true){var i=e[0].target.attributes[0].value.substr(0,e[0].target.attributes[0].value.length-9);window.ezoSTPixelAdd(i,'viewed',1);o.disconnect();}};window.ezaslEvent=function(m,o){if(typeof m[0].target.attributes['data-ad-status']!='undefined'){var v=m[0].target.attributes['data-ad-status'].value;var i=m[0].target.attributes[0].value.substr(0,m[0].target.attributes[0].value.length-9);if(v=='filled'){window.ezoSTPixelAdd(i,'loaded',1);var vo=new IntersectionObserver(window.ezasvEvent,{threshold:[1]});vo.observe(document.getElementById(i+'-asloaded'));}
-o.disconnect();}};window.ezoSTPixels=[];var stPixelInterval=setInterval(function(){if(typeof __ez!=='undefined'&&typeof __ezDotData!=='undefined'&&(typeof ezslots!=='undefined'&&window.ezslots_raw.length>0)){window.ezoSTPixelFire();clearInterval(stPixelInterval);}},250);window.ezoSTPixelAdd=function(id,name,value){window.ezoSTPixels.push({id:id,name:name,value:value});window.ezoSTPixelFire();};window.ezoGetSlotById=function(id){var slotId=id.split('div-gpt-ad-')[1].split('-',3).join('-');for(s in window.ezslots_raw){if(window.ezslots_raw[s].tap.includes(slotId)){return window.ezslots_raw[s];}}};window.ezoSTPixelFire=function(){if(typeof __ez!=='undefined'&&typeof __ezDotData!=='undefined'&&(typeof ezslots!=='undefined'&&window.ezslots_raw.length>0)){while(window.ezoSTPixels.length>0){var event=window.ezoSTPixels.shift();var s=window.ezoGetSlotById(event.id);var pxData=[{type:'impression',impression_id:s.eid,domain_id:window.did.toString(),unit:event.id,t_epoch:__ez.dot.getEpoch(0),ad_position:parseInt(s.ap),country_code:__ez.dot.getCC(),pageview_id:__ez.dot.getPageviewId(),comp_id:1,data:__ez.dot.dataToStr([(new __ezDotData(event.name,event.value.toString()))]),is_orig:0}];var pxURL='/porpoiseant/army.gif';var pixelURL=__ez.dot.getURL(pxURL)+'?orig=0&sts='+btoa(JSON.stringify(pxData));__ez.dot.Fire(pixelURL);}}};</script>
-<script>window.ezhbopt=true;</script>
-<link rel='preload' as='script' href='//securepubads.g.doubleclick.net/tag/js/gpt.js'>
-<link href="//ad.doubleclick.net" rel="dns-prefetch">
-<link href="//pagead2.googlesyndication.com" rel="dns-prefetch">
-<link href="//googleads.g.doubleclick.net" rel="dns-prefetch">
-<link href="//tpc.googlesyndication.com" rel="dns-prefetch">
-<link href="//adservice.google.com" rel="dns-prefetch">
-<link href="//secureads.g.doubleclick.net" rel="dns-prefetch">
-<link href="//www.googletagservices.com" rel="dns-prefetch">
+
 <link rel='preload' as='script' href='//go.ezodn.com/hb/dall.js?b=amx,ix,oftmedia,onemobile,onetag,pulsepoint,rubicon,smilewanted,sovrn,undertone,unruly,yahoossp&cb=195-24-35' onerror="window.ezDallErr=true">
 <script rel=preload async="" src="//c.amazon-adsystem.com/aax2/apstag.js"></script>
 <script data-cfasync="false" type="text/javascript" data-pagespeed-no-defer>var __ezaps=[];var __ezapsVideo=[];var __ezapid="aa05931b-5308-4ea3-95a2-adf84f4ffde4";!function(a9,a){if(a[a9])return;function q(c,r){a[a9]._Q.push([c,r])}
